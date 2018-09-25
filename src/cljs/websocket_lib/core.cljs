@@ -1,8 +1,11 @@
 (ns websocket-lib.core)
 
+(def base-ws-url
+     (atom nil))
+
 (defn form-ws-url
   "Form ws or wss url from baseURI"
-  [http-uri]
+  []
   (let [base-uri (aget js/document "baseURI")
         [protocol
          domain] (.split base-uri "://" 2)
@@ -21,16 +24,27 @@
     (swap!
       final-ws-url
       str
-      domain
-      http-uri))
+      domain))
  )
 
 (defn connect-websocket
  "Initialize js/WebSocket object"
  [websocket-uri]
- (js/WebSocket.
-   (form-ws-url
-     websocket-uri))
+ (try
+   (let [ws-base-url (or @base-ws-url
+                         (form-ws-url))
+         ws-url (str
+                  ws-base-url
+                  websocket-uri)]
+     (js/WebSocket.
+       ws-url))
+   (catch js/Error e
+     (.log
+       js/console
+       (aget
+         e
+         "message"))
+     ))
  )
 
 (defn websocket
