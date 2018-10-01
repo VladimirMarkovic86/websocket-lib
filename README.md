@@ -1,4 +1,4 @@
-# server
+# WebSocket library
 
 WebSocket library
 
