@@ -6,10 +6,17 @@
 (defn form-ws-url
   "Form ws or wss url from baseURI"
   []
-  (let [base-uri (aget js/document "baseURI")
+  (let [base-uri (.-baseURI
+                   js/document)
         [protocol
-         domain] (.split base-uri "://" 2)
-        domain (.replace domain "/" "")
+         domain] (.split
+                   base-uri
+                   "://"
+                   2)
+        domain (.replace
+                 domain
+                 "/"
+                 "")
         final-ws-url (atom "")]
     (if (= protocol
            "https")
@@ -41,9 +48,8 @@
    (catch js/Error e
      (.log
        js/console
-       (aget
-         e
-         "message"))
+       (.-message
+         e))
      ))
  )
 
@@ -61,17 +67,23 @@
       websocket-obj
       "onopen"
       (fn [event]
-        (.log js/console event)
-        (when (fn? onopen-fn)
+        (.log
+          js/console
+          event)
+        (when (fn?
+                onopen-fn)
           (onopen-fn
             event))
-        ))
+       ))
     (aset
       websocket-obj
       "onmessage"
       (fn [event]
-        (.log js/console event)
-        (when (fn? onmessage-fn)
+        (.log
+          js/console
+          event)
+        (when (fn?
+                onmessage-fn)
           (onmessage-fn
             event))
        ))
@@ -79,8 +91,11 @@
       websocket-obj
       "onerror"
       (fn [event]
-        (.log js/console event)
-        (when (fn? onerror-fn)
+        (.log
+          js/console
+          event)
+        (when (fn?
+                onerror-fn)
           (onerror-fn
             event))
        ))
@@ -88,8 +103,11 @@
       websocket-obj
       "onclose"
       (fn [event]
-        (.log js/console event)
-        (when (fn? onclose-fn)
+        (.log
+          js/console
+          event)
+        (when (fn?
+                onclose-fn)
           (onclose-fn
             event))
        ))
