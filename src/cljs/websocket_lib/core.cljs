@@ -13,10 +13,12 @@
                    base-uri
                    "://"
                    2)
-        domain (.replace
+        domain (.substring
                  domain
-                 "/"
-                 "")
+                 0
+                 (.indexOf
+                   domain
+                   "/"))
         final-ws-url (atom "")]
     (if (= protocol
            "https")
@@ -35,21 +37,21 @@
  )
 
 (defn connect-websocket
- "Initialize js/WebSocket object"
- [websocket-uri]
- (try
-   (let [ws-base-url (or @base-ws-url
-                         (form-ws-url))
-         ws-url (str
-                  ws-base-url
-                  websocket-uri)]
-     (js/WebSocket.
-       ws-url))
-   (catch js/Error e
-     (.log
-       js/console
-       (.-message
-         e))
+  "Initialize js/WebSocket object"
+  [websocket-uri]
+  (try
+    (let [ws-base-url (or @base-ws-url
+                          (form-ws-url))
+          ws-url (str
+                   ws-base-url
+                   websocket-uri)]
+      (js/WebSocket.
+        ws-url))
+    (catch js/Error e
+      (.log
+        js/console
+        (.-message
+          e))
      ))
  )
 
@@ -111,5 +113,5 @@
           (onclose-fn
             event))
        ))
-   ))
+    websocket-obj))
 
