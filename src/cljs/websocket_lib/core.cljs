@@ -62,16 +62,18 @@
    {onopen-fn :onopen-fn
     onmessage-fn :onmessage-fn
     onerror-fn :onerror-fn
-    onclose-fn :onclose-fn}]
+    onclose-fn :onclose-fn
+    is-logging-on :is-logging-on}]
   (let [websocket-obj (connect-websocket
                         websocket-uri)]
     (aset
       websocket-obj
       "onopen"
       (fn [event]
-        (.log
-          js/console
-          event)
+        (when is-logging-on
+          (.log
+            js/console
+            event))
         (when (fn?
                 onopen-fn)
           (onopen-fn
@@ -81,9 +83,10 @@
       websocket-obj
       "onmessage"
       (fn [event]
-        (.log
-          js/console
-          event)
+        (when is-logging-on
+          (.log
+            js/console
+            event))
         (when (fn?
                 onmessage-fn)
           (onmessage-fn
@@ -105,9 +108,10 @@
       websocket-obj
       "onclose"
       (fn [event]
-        (.log
-          js/console
-          event)
+        (when is-logging-on
+          (.log
+            js/console
+            event))
         (when (fn?
                 onclose-fn)
           (onclose-fn
