@@ -1,4 +1,4 @@
-(defproject org.clojars.vladimirmarkovic86/websocket-lib "0.1.4"
+(defproject org.clojars.vladimirmarkovic86/websocket-lib "0.1.5"
   :description "WebSocket library"
   :url "http://github.com/VladimirMarkovic86/websocket-lib"
   :license {:name "Eclipse Public License"
@@ -10,7 +10,9 @@
   
   :source-paths ["src/cljs"]
   
-  :jar-exclusions [#"^public/"]
+  :jar-exclusions [#"^public/"
+                   #"README.md$"
+                   #"LICENSE$"]
 
   :plugins [[lein-cljsbuild  "1.1.7"]
             [lein-doo "0.1.11"]
